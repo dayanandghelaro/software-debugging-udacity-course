@@ -7,13 +7,14 @@ def extract_text(html_text):
     quote_mode = False
     text = ""
     for char in html_text:
-        if not tag_mode and char == "<":
+        active_mode = tag_mode or quote_mode
+        if not active_mode and char == "<":
             tag_mode = True
-        elif char == "\"":
+        elif char == "'" or char == '"':
             quote_mode = not quote_mode
         elif not quote_mode and char == ">":
             tag_mode = False
-        elif not tag_mode and not quote_mode:
+        elif not active_mode:
             text += char
     return text
 
